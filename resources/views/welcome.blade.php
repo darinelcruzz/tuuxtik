@@ -6,10 +6,24 @@
   <title>TuuxtiK Express</title>
   <link rel="icon" href="{{ asset('img/tuuxtik_logo.png') }}">
   <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <!-- ... -->
 </head>
 <body class="bg-secondary">
+  @php
+    if(isset($_POST["email"])){
+
+      // $to = "contacto@tuuxtik.mx";
+      $to = "darinelcruzz@gmail.com";
+      $subject = "Solicitud de servicio";
+      $from=$_POST["email"];
+      $msg=$_POST["message"];
+      $headers = "From: $from";
+
+      mail($to,$subject,$msg,$headers);
+    }
+  @endphp
   <div class="container bg-white w-5/6 md:w-1/2 mx-auto text-gray-200 rounded-md p-2 border-2 border-primary md:mt-36">
 
     {{-- <div class="flex justify-around flex-wrap content-center"> --}}
@@ -42,7 +56,56 @@
                   </ul>
               </div>
           </div>
-          <div class="mt-8 text-center font-bold uppercase tracking-widest">¡FACTURAMOS!</div>
+          <div class="mt-8 text-center font-bold uppercase tracking-widest">
+            ¡FACTURAMOS! <br>
+            <div x-data="{ showModal : false }">
+              <!-- Button -->
+              <button @click="showModal = !showModal" class="px-4 py-2 text-sm bg-primary text-white rounded-xl border transition-colors duration-150 ease-linear border-gray-200 text-gray-300 font-bold hover:bg-secondary hover:text-primary">CONTÁCTANOS</button>
+
+              <!-- Modal Background -->
+              <div x-show="showModal" class="fixed text-gray-500 flex items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0" x-transition:enter="transition ease duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                  <!-- Modal -->
+                  <div x-show="showModal" class="bg-white rounded-xl shadow-2xl p-6 sm:w-10/12 mx-10" @click.away="showModal = false" x-transition:enter="transition ease duration-100 transform" x-transition:enter-start="opacity-0 scale-90 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease duration-100 transform" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-1">
+                      <!-- Title -->
+                      <span class="font-bold block text-2xl mb-3">Envíanos un mensaje</span>
+                      <!-- Some beer 🍺 -->
+                      <form action="/" method="post" class="w-full">
+                        @csrf
+
+  <div class="flex flex-wrap mb-6">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+        Nombre
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" name="name" type="text" placeholder="Luis Hernández" required>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+        Correo
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="email" type="email" placeholder="ejemplo@dominio.com" required>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        Mensaje
+      </label>
+      <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Lorem ipsum dolor sit amet..." rows="4" required name="message"></textarea>
+      <p class="text-gray-600 text-xs italic">Nos comunicaremos contigo tan pronto como podamos.</p>
+    </div>
+  </div>
+
+
+                      <!-- Buttons -->
+                      <div class="text-right space-x-5 mt-5">
+                          <button type="submit" class="px-4 py-2 text-sm bg-primary rounded-xl border transition-colors duration-150 ease-linear border-gray-200 text-gray-300 focus:outline-none focus:ring-0 font-bold hover:bg-gray-50 focus:bg-indigo-50 focus:text-indigo">Enviar</button>
+                      </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+          </div>
       </div>
         
     </div>
